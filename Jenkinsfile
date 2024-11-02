@@ -61,7 +61,7 @@ pipeline {
                     ansiblePlaybook(
                         playbook: 'setup.yml',
                         inventory: 'hosts', // Define your hosts file
-                        credentialsId: 'ansible-ssh-key' // Your SSH credentials
+                        credentialsId: 'shoppingkey' // Your SSH credentials
                     )
                 }
             }
