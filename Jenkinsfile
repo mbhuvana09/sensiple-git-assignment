@@ -55,24 +55,17 @@ pipeline {
                 archiveArtifacts artifacts: '*.py', allowEmptyArchive: true
             }
         }
-    }
+        stage('Deploy') {
+            steps {
+                script {
+                    ansiblePlaybook(
+                        playbook: 'setup.yml',
+                        inventory: 'hosts', // Define your hosts file
+                        credentialsId: 'ansible-ssh-key' // Your SSH credentials
+                    )
+                }
+            }
+        }
 
-    post {
-        success {
-            // Send email on success
-            emailext (
-                subject: "SUCCESS: Build ${currentBuild.fullDisplayName}",
-                body: "The build was successful! Check it out at: ${env.BUILD_URL}",
-                to: 'mbhuvana128@gmail.com'
-            )
-        }
-        failure {
-            // Send email on failure
-            emailext (
-                subject: "FAILURE: Build ${currentBuild.fullDisplayName}",
-                body: "The build failed. Please check the details at: ${env.BUILD_URL}",
-                to: 'mbhuvana128@gmail.com'
-            )
-        }
-    }
+    }   
 }
