@@ -31,13 +31,5 @@ pipeline {
             }
         }
     }
-    post {
-        failure {
-            emailext(
-                to: 'mbhuvana128@gmail.com',
-                subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Check console output at ${env.BUILD_URL} to view the results."
-            )
-        }
-    }
+ 
 }
