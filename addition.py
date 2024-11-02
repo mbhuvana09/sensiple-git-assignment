@@ -1,3 +1,7 @@
+"""
+This module contains a function for adding two numbers.
+"""
+
 def add(a: float, b: float) -> float:
     """
     Adds two numbers together.
@@ -13,6 +17,6 @@ def add(a: float, b: float) -> float:
 
 if __name__ == "__main__":
     # Example usage
-    num1 = 10.5
-    num2 = 4.5
-    print(f"The sum of {num1} and {num2} is {add(num1, num2)}")
+    NUM1 = 10.5  # Constant
+    NUM2 = 4.5   # Constant
+    print(f"The sum of {NUM1} and {NUM2} is {add(NUM1, NUM2)}")
