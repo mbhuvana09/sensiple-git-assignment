@@ -1,17 +1,21 @@
 pipeline {
     agent any
+
     options {
         timeout(time: 30, unit: 'MINUTES')
     }
+
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
+
         stage('Set Up Environment') {
             steps {
                 script {
+                    // Create virtual environment and install dependencies
                     sh 'python3 -m venv venv'
                     sh '''
                         . venv/bin/activate
@@ -20,9 +24,11 @@ pipeline {
                 }
             }
         }
+
         stage('Code Quality Check') {
             steps {
                 script {
+                    // Run pylint on the specified Python files
                     sh '''
                         . venv/bin/activate
                         pylint addition.py subtraction.py
@@ -30,9 +36,11 @@ pipeline {
                 }
             }
         }
+
         stage('Unit Tests') {
             steps {
                 script {
+                    // Run pytest for unit tests
                     sh '''
                         . venv/bin/activate
                         pytest
@@ -40,13 +48,18 @@ pipeline {
                 }
             }
         }
+
         stage('Artifact Archiving') {
             steps {
+                // Archive Python files as artifacts
                 archiveArtifacts artifacts: '*.py', allowEmptyArchive: true
             }
         }
-          post {
+    }
+
+    post {
         success {
+            // Send email on success
             emailext (
                 subject: "SUCCESS: Build ${currentBuild.fullDisplayName}",
                 body: "The build was successful! Check it out at: ${env.BUILD_URL}",
@@ -54,12 +67,12 @@ pipeline {
             )
         }
         failure {
+            // Send email on failure
             emailext (
                 subject: "FAILURE: Build ${currentBuild.fullDisplayName}",
                 body: "The build failed. Please check the details at: ${env.BUILD_URL}",
                 to: 'mbhuvana128@gmail.com'
             )
         }
-    }
     }
 }
