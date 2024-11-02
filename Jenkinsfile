@@ -59,9 +59,9 @@ pipeline {
             steps {
                 script {
                     ansiblePlaybook(
-                        playbook: 'setup.yml',
-                        inventory: 'hosts', // Define your hosts file
-                        credentialsId: 'shoppingkey' // Your SSH credentials
+                        playbook: "/home/ubuntu/ansible-playbooks/setup.yml",
+                        inventory: "/home/ubuntu/ansible-playbooks/hosts", 
+                        credentialsId: "/home/ubuntu/shoppingkey.pem"
                     )
                 }
             }
