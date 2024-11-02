@@ -1,3 +1,7 @@
+"""
+This module contains a function for subtracting two numbers.
+"""
+
 def subtract(a: float, b: float) -> float:
     """
     Subtracts the second number from the first.
@@ -13,6 +17,6 @@ def subtract(a: float, b: float) -> float:
 
 if __name__ == "__main__":
     # Example usage
-    num1 = 10.5
-    num2 = 4.5
-    print(f"The result of subtracting {num2} from {num1} is {subtract(num1, num2)}")
+    NUM1 = 10.5  # Constant
+    NUM2 = 4.5   # Constant
+    print(f"The result of subtracting {NUM2} from {NUM1} is {subtract(NUM1, NUM2)}")
