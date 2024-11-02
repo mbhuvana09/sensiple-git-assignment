@@ -16,8 +16,8 @@ pipeline {
             steps {
                 script {
                     // Create virtual environment and install dependencies
-                    sh 'python3 -m venv venv'
                     sh '''
+                        python3 -m venv venv
                         . venv/bin/activate
                         pip install pylint pytest
                     '''
@@ -55,17 +55,18 @@ pipeline {
                 archiveArtifacts artifacts: '*.py', allowEmptyArchive: true
             }
         }
+
         stage('Deploy') {
             steps {
                 script {
+    
                     ansiblePlaybook(
                         playbook: "/home/ubuntu/ansible-playbooks/setup.yml",
                         inventory: "/home/ubuntu/ansible-playbooks/hosts", 
-                        credentialsId: "/home/ubuntu/shoppingkey.pem"
+                        credentialsId: "my_ssh_key" 
                     )
                 }
             }
         }
-
     }   
 }
