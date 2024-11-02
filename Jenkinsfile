@@ -56,8 +56,8 @@ pipeline {
             steps {
                 script {
                     ansiblePlaybook(
-                        playbook: "${env.WORKSPACE}/ansible-playbooks/setup.yml",
-                        inventory: "${env.WORKSPACE}/ansible-playbooks/hosts",
+                        playbook: "/home/ubuntu/ansible-playbooks/setup.yml",
+                        inventory: "/home/ubuntu/ansible-playbooks/hosts",
                         credentialsId: "my_ssh_key"
                     )
                 }
