@@ -45,5 +45,21 @@ pipeline {
                 archiveArtifacts artifacts: '*.py', allowEmptyArchive: true
             }
         }
+          post {
+        success {
+            emailext (
+                subject: "SUCCESS: Build ${currentBuild.fullDisplayName}",
+                body: "The build was successful! Check it out at: ${env.BUILD_URL}",
+                to: 'your-email@example.com'
+            )
+        }
+        failure {
+            emailext (
+                subject: "FAILURE: Build ${currentBuild.fullDisplayName}",
+                body: "The build failed. Please check the details at: ${env.BUILD_URL}",
+                to: 'your-email@example.com'
+            )
+        }
+    }
     }
 }
