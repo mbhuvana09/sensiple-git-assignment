@@ -9,19 +9,34 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Set Up Environment') {
+            steps {
+                script {
+                    sh 'python3 -m venv venv'
+                    sh '''
+                        . venv/bin/activate
+                        pip install pylint pytest
+                    '''
+                }
+            }
+        }
         stage('Code Quality Check') {
             steps {
                 script {
-                    sh 'pip install pylint'
-                    sh 'pylint addition.py subtraction.py'
+                    sh '''
+                        . venv/bin/activate
+                        pylint addition.py subtraction.py
+                    '''
                 }
             }
         }
         stage('Unit Tests') {
             steps {
                 script {
-                    sh 'pip install pytest'
-                    sh 'pytest'
+                    sh '''
+                        . venv/bin/activate
+                        pytest
+                    '''
                 }
             }
         }
@@ -31,5 +46,4 @@ pipeline {
             }
         }
     }
- 
 }
