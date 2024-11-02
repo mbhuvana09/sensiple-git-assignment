@@ -15,7 +15,6 @@ pipeline {
         stage('Set Up Environment') {
             steps {
                 script {
-                    // Create virtual environment and install dependencies
                     sh '''
                         python3 -m venv venv
                         . venv/bin/activate
@@ -28,7 +27,6 @@ pipeline {
         stage('Code Quality Check') {
             steps {
                 script {
-                    // Run pylint on the specified Python files
                     sh '''
                         . venv/bin/activate
                         pylint addition.py subtraction.py
@@ -40,7 +38,6 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 script {
-                    // Run pytest for unit tests
                     sh '''
                         . venv/bin/activate
                         pytest
@@ -51,7 +48,6 @@ pipeline {
 
         stage('Artifact Archiving') {
             steps {
-                // Archive Python files as artifacts
                 archiveArtifacts artifacts: '*.py', allowEmptyArchive: true
             }
         }
@@ -59,11 +55,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-    
                     ansiblePlaybook(
-                        playbook: "/home/ubuntu/ansible-playbooks/setup.yml",
-                        inventory: "/home/ubuntu/ansible-playbooks/hosts", 
-                        credentialsId: "my_ssh_key" 
+                        playbook: "${env.WORKSPACE}/ansible-playbooks/setup.yml",
+                        inventory: "${env.WORKSPACE}/ansible-playbooks/hosts",
+                        credentialsId: "my_ssh_key"
                     )
                 }
             }
