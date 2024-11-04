@@ -67,7 +67,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        ansible-playbook -i /home/ubuntu/hosts /home/ubuntu/main.yml --key-file /home/ubuntu/shoppingkey.pem
+                        ansible-playbook -i /hosts /main.yml --key-file /shoppingkey.pem
                     '''
                 }
             }
