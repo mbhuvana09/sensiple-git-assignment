@@ -55,6 +55,7 @@ pipeline {
         stage('Debug') {
             steps {
                 script {
+                    // This stage is for debugging purposes
                     sh '''
                         pwd
                         ls -l
@@ -63,14 +64,40 @@ pipeline {
             }
         }
 
+        stage('Check Hosts File') {
+            steps {
+                script {
+                    // Verify the hosts file is present in the workspace
+                    sh '''
+                        echo "Checking for hosts file:"
+                        ls -l hosts
+                    '''
+                }
+            }
+        }
+
         stage('Deploy with Ansible') {
             steps {
                 script {
+                    // Execute the Ansible playbook
                     sh '''
                         ansible-playbook -i hosts main.yml --key-file shoppingkey.pem
                     '''
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            // Always run this block to ensure we have some logging
+            echo 'Pipeline completed.'
+        }
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed.'
         }
     }
 }
