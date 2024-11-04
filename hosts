@@ -1,2 +1,4 @@
-[web server]
-54.234.196.229
+all:
+  hosts:
+    webserver:
+      ansible_host: 54.234.196.229
