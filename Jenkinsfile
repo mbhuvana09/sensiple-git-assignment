@@ -67,7 +67,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        ansible-playbook -i hosts main.yml 
+                        ansible-playbook -i hosts main.yml --private-key=shoppingkey.pem 
                     '''
                 }
             }
