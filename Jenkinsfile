@@ -52,6 +52,17 @@ pipeline {
             }
         }
 
+        stage('Debug') {
+            steps {
+                script {
+                    sh '''
+                        pwd
+                        ls -l
+                    '''
+                }
+            }
+        }
+
         stage('Deploy with Ansible') {
             steps {
                 script {
