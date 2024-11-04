@@ -52,16 +52,14 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy with Ansible') {
             steps {
                 script {
-                    ansiblePlaybook(
-                        playbook: "/home/ubuntu/ansible-playbooks/setup.yml",
-                        inventory: "/home/ubuntu/ansible-playbooks/hosts",
-                        credentialsId: "my_ssh_key"
-                    )
+                    sh '''
+                        ansible-playbook -i /hosts /main.yml --key-file /home/ubuntu/shoppingkey.pem
+                    '''
                 }
             }
         }
-    }   
+    }
 }
