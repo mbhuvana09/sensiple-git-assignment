@@ -67,7 +67,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        ansible-playbook -i hosts main.yml --private-key=shoppingkey.pem 
+                        ansible-playbook -i hosts main.yml --private-key=shoppingkey.pem --ssh-extra-args='-o StrictHostKeyChecking=no'
+ 
                     '''
                 }
             }
