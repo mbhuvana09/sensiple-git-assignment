@@ -48,29 +48,16 @@ pipeline {
 
         stage('Artifact Archiving') {
             steps {
-                archiveArtifacts artifacts: '*.py', allowEmptyArchive: true
+                archiveArtifacts artifacts: '*.py, hosts', allowEmptyArchive: true
             }
         }
 
-        stage('Debug') {
+        stage('Debug Hosts File') {
             steps {
                 script {
-                    // This stage is for debugging purposes
                     sh '''
-                        pwd
-                        ls -l
-                    '''
-                }
-            }
-        }
-
-        stage('Check Hosts File') {
-            steps {
-                script {
-                    // Verify the hosts file is present in the workspace
-                    sh '''
-                        echo "Checking for hosts file:"
-                        ls -l hosts
+                        echo "Contents of hosts file:"
+                        cat hosts
                     '''
                 }
             }
@@ -79,7 +66,6 @@ pipeline {
         stage('Deploy with Ansible') {
             steps {
                 script {
-                    // Execute the Ansible playbook
                     sh '''
                         ansible-playbook -i hosts main.yml --key-file shoppingkey.pem
                     '''
@@ -90,14 +76,17 @@ pipeline {
 
     post {
         always {
-            // Always run this block to ensure we have some logging
-            echo 'Pipeline completed.'
+            echo 'Cleaning up...'
+            sh '''
+                . venv/bin/activate
+                deactivate
+            '''
         }
         success {
-            echo 'Deployment successful!'
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo 'Deployment failed.'
+            echo 'Pipeline failed.'
         }
     }
 }
